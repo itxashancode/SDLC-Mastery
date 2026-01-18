@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDLC Mastery | Waterfall vs Agile Explained</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a192f;
+            --bg-card: #112240;
+            --bg-hover: #1a2c4d;
+            --waterfall-blue: #0ea5e9;
+            --agile-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --warning-orange: #f59e0b;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-tertiary: #64748b;
+            --border-color: #2d3748;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); }
+        h3 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+        h4 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+        h5 { font-size: 1.25rem; }
+        h6 { font-size: 1rem; }
+        
+        p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .lead {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .text-muted {
+            color: var(--text-tertiary) !important;
+        }
+        
+        .text-waterfall { color: var(--waterfall-blue) !important; }
+        .text-agile { color: var(--agile-green) !important; }
+        
+        /* Navigation */
+        .navbar {
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: var(--transition);
+        }
+        
+        .navbar.scrolled {
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--text-primary) !important;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--waterfall-blue), var(--agile-green));
+            border-radius: 1px;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(10, 25, 47, 0.95), rgba(17, 34, 64, 0.8));
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0 4rem;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Section Styling */
+        .section-py {
+            padding: 6rem 0;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--waterfall-blue), var(--agile-green));
+            border-radius: 2px;
+        }
+        
+        /* Cards */
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            height: 100%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--waterfall-blue), var(--agile-green));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--waterfall-blue);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            color: white;
+        }
+        
+        /* Methodology Cards */
+        .methodology-card {
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            height: 100%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .methodology-card.waterfall {
+            border-left: 4px solid var(--waterfall-blue);
+        }
+        
+        .methodology-card.agile {
+            border-left: 4px solid var(--agile-green);
+        }
+        
+        .methodology-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .methodology-card.waterfall:hover {
+            border-color: var(--waterfall-blue);
+        }
+        
+        .methodology-card.agile:hover {
+            border-color: var(--agile-green);
+        }
+        
+        .methodology-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .methodology-icon.waterfall {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--waterfall-blue);
+        }
+        
+        .methodology-icon.agile {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--agile-green);
+        }
+        
+        /* Process Visualization */
+        .process-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .process-step {
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            min-width: 160px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-5px);
+            border-color: var(--waterfall-blue);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .process-connector {
+            width: 40px;
+            height: 2px;
+            background: var(--border-color);
+            position: relative;
+            display: none;
+        }
+        
+        .process-connector::after {
+            content: '→';
+            position: absolute;
+            right: -15px;
+            top: -10px;
+            color: var(--text-tertiary);
+        }
+        
+        /* Comparison Table */
+        .comparison-container {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th {
+            background: var(--bg-hover);
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .comparison-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .comparison-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        /* Interactive Elements */
+        .info-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-purple);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--waterfall-blue), var(--agile-green));
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .info-box:hover::after {
+            opacity: 1;
+        }
+        
+        /* Popup System */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+        }
+        
+        .popup-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-xl);
+            animation: popupIn 0.3s ease;
+        }
+        
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-popup:hover {
+            color: var(--text-primary);
+            background: var(--bg-hover);
+        }
+        
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-hover));
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* Progress Bars */
+        .progress-container {
+            background: var(--bg-hover);
+            border-radius: var(--radius-sm);
+            height: 8px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            transition: width 0.6s ease;
+        }
+        
+        .progress-waterfall {
+            background: linear-gradient(90deg, var(--waterfall-blue), #38bdf8);
+        }
+        
+        .progress-agile {
+            background: linear-gradient(90deg, var(--agile-green), #34d399);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer h5 {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--accent-purple));
+            border: none;
+            padding: 0.875rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            color: white;
+        }
+        
+        .btn-outline-waterfall {
+            border: 2px solid var(--waterfall-blue);
+            color: var(--waterfall-blue);
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        
+        .btn-outline-waterfall:hover {
+            background: var(--waterfall-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-agile {
+            border: 2px solid var(--agile-green);
+            color: var(--agile-green);
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        
+        .btn-outline-agile:hover {
+            background: var(--agile-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive Design */
+        @media (min-width: 992px) {
+            .process-connector {
+                display: block;
+            }
+            
+            .hero-section {
+                padding: 8rem 0 6rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section-py {
+                padding: 4rem 0;
+            }
+            
+            .process-step {
+                min-width: 140px;
+                padding: 1.25rem;
+            }
+            
+            .methodology-card {
+                padding: 2rem;
+            }
+            
+            .popup-content {
+                padding: 2rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.875rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 1rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 5rem 0 3rem;
+            }
+            
+            .process-container {
+                gap: 1rem;
+            }
+            
+            .process-step {
+                min-width: 120px;
+                padding: 1rem;
+            }
+            
+            .feature-card,
+            .methodology-card {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Utility Classes */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .bg-gradient {
+            background: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+        }
+        
+        .border-gradient {
+            border: 2px solid transparent;
+            border-image: linear-gradient(135deg, var(--waterfall-blue), var(--agile-green));
+            border-image-slice: 1;
+        }
+        
+        .shadow-hover {
+            transition: var(--transition);
+        }
+        
+        .shadow-hover:hover {
+            box-shadow: var(--shadow-xl);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-card);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--waterfall-blue), var(--agile-green));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--waterfall-blue), var(--accent-purple));
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="bi bi-diagram-3 me-2"></i>SDLC Mastery
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#overview">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#waterfall">Waterfall</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#agile">Agile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#comparison">Comparison</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#resources">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <span class="hero-badge">
+                        <i class="bi bi-lightning-charge me-2"></i>Master Software Development
+                    </span>
+                    <h1 class="mb-4">Master the <span class="gradient-text">SDLC</span></h1>
+                    <p class="lead mb-4">
+                        Learn the fundamental differences between Waterfall and Agile methodologies. 
+                        Understand when to use each approach and how to implement them successfully 
+                        in your software projects.
+                    </p>
+                    
+                    <div class="info-box mb-4" onclick="showPopup('why-learn-sdlc')">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-question-circle text-waterfall me-3" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <h5 class="mb-1">Why Learn SDLC Methodologies?</h5>
+                                <p class="mb-0 text-muted">Click to understand the importance of structured development processes</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-primary" onclick="scrollToSection('overview')">
+                            <i class="bi bi-play-circle me-2"></i>Start Learning
+                        </button>
+                        <button class="btn btn-outline-waterfall" onclick="showPopup('waterfall-intro')">
+                            <i class="bi bi-arrow-down me-2"></i>Waterfall
+                        </button>
+                        <button class="btn btn-outline-agile" onclick="showPopup('agile-intro')">
+                            <i class="bi bi-arrow-repeat me-2"></i>Agile
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="process-container">
+                        <div class="process-step" onclick="showPopup('sdlc-cycle')">
+                            <div class="methodology-icon waterfall">
+                                <i class="bi bi-gear"></i>
+                            </div>
+                            <h5>SDLC Cycle</h5>
+                            <p class="text-muted small mb-0">Complete development lifecycle</p>
+                        </div>
+                        
+                        <div class="process-connector"></div>
+                        
+                        <div class="process-step" onclick="showPopup('methodology-choice')">
+                            <div class="methodology-icon agile">
+                                <i class="bi bi-diagram-3"></i>
+                            </div>
+                            <h5>Methodology</h5>
+                            <p class="text-muted small mb-0">Choosing the right approach</p>
+                        </div>
+                        
+                        <div class="process-connector"></div>
+                        
+                        <div class="process-step" onclick="showPopup('implementation')">
+                            <div class="methodology-icon" style="background: rgba(139, 92, 246, 0.15); color: var(--accent-purple);">
+                                <i class="bi bi-rocket-takeoff"></i>
+                            </div>
+                            <h5>Implementation</h5>
+                            <p class="text-muted small mb-0">Putting theory into practice</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section-py bg-dark">
+        <div class="container">
+            <h2 class="section-title">SDLC Overview</h2>
+            <p class="lead mb-5">Understanding the Software Development Life Cycle is crucial for successful project delivery.</p>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-clipboard-data"></i>
+                        </div>
+                        <h4>Structured Process</h4>
+                        <p>SDLC provides a systematic approach to software development, ensuring quality and efficiency throughout the project lifecycle.</p>
+                        <button class="btn btn-outline-waterfall btn-sm" onclick="showPopup('structured-process')">Learn More</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h4>Risk Management</h4>
+                        <p>Proper SDLC implementation helps identify and mitigate risks early, reducing project failures and cost overruns.</p>
+                        <button class="btn btn-outline-agile btn-sm" onclick="showPopup('risk-management')">Learn More</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                        <h4>Quality Assurance</h4>
+                        <p>Ensures software meets quality standards through systematic testing, validation, and verification processes.</p>
+                        <button class="btn btn-outline-waterfall btn-sm" onclick="showPopup('quality-assurance')">Learn More</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">85%</div>
+                        <p class="text-muted">Projects with proper SDLC succeed</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">60%</div>
+                        <p class="text-muted">Cost reduction with SDLC</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">45%</div>
+                        <p class="text-muted">Faster time to market</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-number">92%</div>
+                        <p class="text-muted">Higher customer satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waterfall Methodology -->
+    <section id="waterfall" class="section-py">
+        <div class="container">
+            <h2 class="section-title text-waterfall">Waterfall Methodology</h2>
+            <p class="lead mb-5">The traditional, linear approach to software development with sequential phases.</p>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <div class="methodology-card waterfall">
+                        <div class="methodology-icon waterfall">
+                            <i class="bi bi-arrow-down"></i>
+                        </div>
+                        <h3 class="text-waterfall">Waterfall Process</h3>
+                        <p class="mb-4">Waterfall follows a strict sequential flow where each phase must be completed before the next begins. This methodology is known for its structured approach and comprehensive documentation.</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar progress-waterfall" style="width: 100%"></div>
+                        </div>
+                        
+                        <div class="row g-3 mt-4">
+                            <div class="col-6">
+                                <div class="info-box" onclick="showPopup('waterfall-phases')">
+                                    <h6><i class="bi bi-list-check me-2"></i>Phases</h6>
+                                    <p class="small text-muted mb-0">6 sequential phases</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-box" onclick="showPopup('waterfall-documentation')">
+                                    <h6><i class="bi bi-file-text me-2"></i>Documentation</h6>
+                                    <p class="small text-muted mb-0">Extensive & detailed</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline-waterfall w-100 mt-4" onclick="showPopup('waterfall-detailed')">
+                            Explore Waterfall Methodology
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="methodology-card">
+                        <h4 class="mb-4"><i class="bi bi-check-circle text-waterfall me-2"></i>When to Use Waterfall</h4>
+                        
+                        <div class="info-box mb-3" onclick="showPopup('waterfall-use-1')">
+                            <h6><i class="bi bi-building me-2"></i>Well-defined Requirements</h6>
+                            <p class="small mb-0">When project requirements are clear, stable, and unlikely to change</p>
+                        </div>
+                        
+                        <div class="info-box mb-3" onclick="showPopup('waterfall-use-2')">
+                            <h6><i class="bi bi-shield-lock me-2"></i>Regulatory Compliance</h6>
+                            <p class="small mb-0">For industries requiring extensive documentation (banking, healthcare)</p>
+                        </div>
+                        
+                        <div class="info-box" onclick="showPopup('waterfall-use-3')">
+                            <h6><i class="bi bi-calendar-check me-2"></i>Fixed Constraints</h6>
+                            <p class="small mb-0">When budget, timeline, and scope are predetermined and cannot change</p>
+                        </div>
+                        
+                        <!-- Waterfall Phases -->
+                        <div class="mt-4">
+                            <h5 class="mb-3">Waterfall Phases:</h5>
+                            <div class="process-container justify-content-start">
+                                <div class="process-step" onclick="showPopup('phase-requirements')">
+                                    <div class="small text-waterfall">1</div>
+                                    <div class="small">Requirements</div>
+                                </div>
+                                <div class="process-step" onclick="showPopup('phase-design')">
+                                    <div class="small text-waterfall">2</div>
+                                    <div class="small">Design</div>
+                                </div>
+                                <div class="process-step" onclick="showPopup('phase-implementation')">
+                                    <div class="small text-waterfall">3</div>
+                                    <div class="small">Implementation</div>
+                                </div>
+                                <div class="process-step" onclick="showPopup('phase-testing')">
+                                    <div class="small text-waterfall">4</div>
+                                    <div class="small">Testing</div>
+                                </div>
+                                <div class="process-step" onclick="showPopup('phase-deployment')">
+                                    <div class="small text-waterfall">5</div>
+                                    <div class="small">Deployment</div>
+                                </div>
+                                <div class="process-step" onclick="showPopup('phase-maintenance')">
+                                    <div class="small text-waterfall">6</div>
+                                    <div class="small">Maintenance</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Waterfall Case Study -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="methodology-card waterfall">
+                        <h4 class="text-waterfall mb-4">
+                            <i class="bi bi-building me-2"></i>Case Study: Banking Software Implementation
+                        </h4>
+                        <p class="mb-4">A major financial institution implemented a new core banking system using the Waterfall methodology. The project required strict regulatory compliance, comprehensive documentation, and zero tolerance for errors.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('case-waterfall-success')">
+                                    <h6><i class="bi bi-check-circle text-agile me-2"></i>Success Factors</h6>
+                                    <p class="small text-muted mb-0">Clear requirements, regulatory compliance, thorough testing</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('case-waterfall-challenges')">
+                                    <h6><i class="bi bi-exclamation-triangle text-warning-orange me-2"></i>Challenges</h6>
+                                    <p class="small text-muted mb-0">Late testing discoveries, difficulty incorporating changes</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="small text-muted">Project Duration</div>
+                                    <div class="h5 mb-0">18 Months</div>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">Budget</div>
+                                    <div class="h5 mb-0">$15M</div>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">Success Rate</div>
+                                    <div class="h5 mb-0">95%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agile Methodology -->
+    <section id="agile" class="section-py bg-dark">
+        <div class="container">
+            <h2 class="section-title text-agile">Agile Methodology</h2>
+            <p class="lead mb-5">An iterative, flexible approach that embraces change and delivers value continuously.</p>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-lg-6">
+                    <div class="methodology-card agile">
+                        <div class="methodology-icon agile">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+                        <h3 class="text-agile">Agile Framework</h3>
+                        <p class="mb-4">Agile breaks development into small iterations (sprints) where each iteration delivers working software. This allows for continuous feedback, adaptation, and early value delivery.</p>
+                        
+                        <div class="progress-container">
+                            <div class="progress-bar progress-agile" style="width: 80%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between small text-muted mt-1">
+                            <span>Sprint 1</span>
+                            <span>Sprint 4 of 5</span>
+                        </div>
+                        
+                        <div class="row g-3 mt-4">
+                            <div class="col-6">
+                                <div class="info-box" onclick="showPopup('agile-principles')">
+                                    <h6><i class="bi bi-journal-text me-2"></i>Principles</h6>
+                                    <p class="small text-muted mb-0">12 Agile principles</p>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="info-box" onclick="showPopup('agile-frameworks')">
+                                    <h6><i class="bi bi-kanban me-2"></i>Frameworks</h6>
+                                    <p class="small text-muted mb-0">Scrum, Kanban, XP</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-outline-agile w-100 mt-4" onclick="showPopup('agile-detailed')">
+                            Explore Agile Methodology
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="methodology-card">
+                        <h4 class="mb-4"><i class="bi bi-check-circle text-agile me-2"></i>When to Use Agile</h4>
+                        
+                        <div class="info-box mb-3" onclick="showPopup('agile-use-1')">
+                            <h6><i class="bi bi-lightning me-2"></i>Dynamic Requirements</h6>
+                            <p class="small mb-0">When project requirements are expected to evolve or are unclear</p>
+                        </div>
+                        
+                        <div class="info-box mb-3" onclick="showPopup('agile-use-2')">
+                            <h6><i class="bi bi-people me-2"></i>Customer Collaboration</h6>
+                            <p class="small mb-0">When continuous customer feedback is essential for success</p>
+                        </div>
+                        
+                        <div class="info-box" onclick="showPopup('agile-use-3')">
+                            <h6><i class="bi bi-speedometer2 me-2"></i>Rapid Delivery</h6>
+                            <p class="small mb-0">When quick time-to-market provides competitive advantage</p>
+                        </div>
+                        
+                        <!-- Agile Manifesto -->
+                        <div class="mt-4">
+                            <h5 class="mb-3">Agile Manifesto Values:</h5>
+                            <div class="row g-2">
+                                <div class="col-12">
+                                    <div class="info-box" onclick="showPopup('agile-value-1')">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-1-circle text-agile me-3"></i>
+                                            <div>
+                                                <h6 class="mb-1">Individuals & Interactions</h6>
+                                                <p class="small text-muted mb-0">Over processes and tools</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="info-box" onclick="showPopup('agile-value-2')">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-2-circle text-agile me-3"></i>
+                                            <div>
+                                                <h6 class="mb-1">Working Software</h6>
+                                                <p class="small text-muted mb-0">Over comprehensive documentation</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Agile Case Study -->
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="methodology-card agile">
+                        <h4 class="text-agile mb-4">
+                            <i class="bi bi-phone me-2"></i>Case Study: Startup Mobile Application
+                        </h4>
+                        <p class="mb-4">A tech startup developed a fitness tracking app using Agile methodology. The project required rapid iteration based on user feedback and constant adaptation to market changes.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('case-agile-success')">
+                                    <h6><i class="bi bi-check-circle text-agile me-2"></i>Success Factors</h6>
+                                    <p class="small text-muted mb-0">Rapid iteration, user feedback, market adaptation</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('case-agile-challenges')">
+                                    <h6><i class="bi bi-exclamation-triangle text-warning-orange me-2"></i>Challenges</h6>
+                                    <p class="small text-muted mb-0">Scope creep, estimating difficulties, documentation gaps</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="small text-muted">Sprints Completed</div>
+                                    <div class="h5 mb-0">24</div>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">Active Users</div>
+                                    <div class="h5 mb-0">500K+</div>
+                                </div>
+                                <div>
+                                    <div class="small text-muted">App Store Rating</div>
+                                    <div class="h5 mb-0">4.8★</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="section-py">
+        <div class="container">
+            <h2 class="section-title">Methodology Comparison</h2>
+            <p class="lead mb-5">Detailed comparison between Waterfall and Agile methodologies</p>
+            
+            <div class="comparison-container mb-5">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Comparison Aspect</th>
+                            <th class="text-waterfall">Waterfall</th>
+                            <th class="text-agile">Agile</th>
+                            <th class="text-muted">Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Approach</strong></td>
+                            <td>Linear & Sequential</td>
+                            <td>Iterative & Incremental</td>
+                            <td>Choose based on project stability</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Requirements</strong></td>
+                            <td>Fixed at beginning</td>
+                            <td>Evolve throughout</td>
+                            <td>Waterfall for stable, Agile for dynamic</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Customer Involvement</strong></td>
+                            <td>Beginning & end only</td>
+                            <td>Continuous throughout</td>
+                            <td>Agile for customer collaboration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Testing Phase</strong></td>
+                            <td>After implementation</td>
+                            <td>Continuous with development</td>
+                            <td>Agile for early defect detection</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Documentation</strong></td>
+                            <td>Extensive & detailed</td>
+                            <td>Minimal, just enough</td>
+                            <td>Waterfall for regulatory needs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flexibility</strong></td>
+                            <td>Low - changes difficult</td>
+                            <td>High - embraces change</td>
+                            <td>Agile for uncertain projects</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Risk Management</strong></td>
+                            <td>Late discovery</td>
+                            <td>Continuous discovery</td>
+                            <td>Agile for high-risk projects</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Project Size</strong></td>
+                            <td>Small to medium</td>
+                            <td>Any size</td>
+                            <td>Waterfall for simpler projects</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Decision Guide -->
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="methodology-card waterfall">
+                        <h4 class="text-waterfall mb-4">
+                            <i class="bi bi-check-circle me-2"></i>Choose Waterfall When:
+                        </h4>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-waterfall me-2 mt-1"></i>
+                                <div>
+                                    <strong>Requirements are well-defined and stable</strong>
+                                    <p class="small text-muted mb-0">No significant changes expected during development</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-waterfall me-2 mt-1"></i>
+                                <div>
+                                    <strong>Regulatory compliance required</strong>
+                                    <p class="small text-muted mb-0">Industries like banking, healthcare, or government</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-waterfall me-2 mt-1"></i>
+                                <div>
+                                    <strong>Fixed constraints</strong>
+                                    <p class="small text-muted mb-0">Budget, timeline, and scope cannot change</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-waterfall w-100 mt-3" onclick="showPopup('choose-waterfall-guide')">
+                            <i class="bi bi-book me-2"></i>Complete Waterfall Guide
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="methodology-card agile">
+                        <h4 class="text-agile mb-4">
+                            <i class="bi bi-check-circle me-2"></i>Choose Agile When:
+                        </h4>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-agile me-2 mt-1"></i>
+                                <div>
+                                    <strong>Requirements are unclear or evolving</strong>
+                                    <p class="small text-muted mb-0">Expect frequent changes based on feedback</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-agile me-2 mt-1"></i>
+                                <div>
+                                    <strong>Need early ROI</strong>
+                                    <p class="small text-muted mb-0">Quick time-to-market provides competitive advantage</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start mb-2">
+                                <i class="bi bi-check-lg text-agile me-2 mt-1"></i>
+                                <div>
+                                    <strong>High customer involvement needed</strong>
+                                    <p class="small text-muted mb-0">Continuous feedback shapes product development</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-agile w-100 mt-3" onclick="showPopup('choose-agile-guide')">
+                            <i class="bi bi-book me-2"></i>Complete Agile Guide
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hybrid Approach -->
+            <div class="row mt-5">
+                <div class="col-lg-8 mx-auto">
+                    <div class="methodology-card">
+                        <h4 class="gradient-text mb-4">
+                            <i class="bi bi-arrow-left-right me-2"></i>Hybrid Approach: Water-Agile-Fall
+                        </h4>
+                        <p class="mb-4">Many organizations adopt a hybrid approach that combines elements of both methodologies, often called "Water-Agile-Fall" or "Wagile". This approach allows for upfront planning while maintaining flexibility during execution.</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('hybrid-benefits')">
+                                    <h6><i class="bi bi-plus-circle me-2"></i>Benefits</h6>
+                                    <p class="small text-muted mb-0">Combines planning with flexibility</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-box" onclick="showPopup('hybrid-implementation')">
+                                    <h6><i class="bi bi-gear me-2"></i>Implementation</h6>
+                                    <p class="small text-muted mb-0">How to implement hybrid approaches</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="section-py bg-dark">
+        <div class="container">
+            <h2 class="section-title">Learning Resources</h2>
+            <p class="lead mb-5">Additional resources to deepen your understanding of SDLC methodologies</p>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-book"></i>
+                        </div>
+                        <h4>Further Reading</h4>
+                        <p>Recommended books, articles, and documentation for mastering Waterfall and Agile methodologies.</p>
+                        <button class="btn btn-outline-waterfall btn-sm" onclick="showPopup('reading-resources')">View Resources</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-play-circle"></i>
+                        </div>
+                        <h4>Video Tutorials</h4>
+                        <p>Collection of video tutorials explaining SDLC concepts, methodologies, and implementation strategies.</p>
+                        <button class="btn btn-outline-agile btn-sm" onclick="showPopup('video-resources')">Watch Videos</button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-tools"></i>
+                        </div>
+                        <h4>Tools & Templates</h4>
+                        <p>Essential tools, templates, and checklists for implementing Waterfall and Agile methodologies.</p>
+                        <button class="btn btn-outline-waterfall btn-sm" onclick="showPopup('tool-resources')">Get Tools</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h4 class="mb-3"><i class="bi bi-diagram-3 me-2"></i>SDLC Mastery</h4>
+                    <p class="mb-4">Comprehensive educational resource for understanding Software Development Life Cycle methodologies, with detailed comparison between Waterfall and Agile approaches.</p>
+                    <div class="d-flex gap-2">
+                        <span class="badge bg-gradient text-white">Waterfall</span>
+                        <span class="badge bg-gradient text-white">Agile</span>
+                        <span class="badge bg-gradient text-white">SDLC</span>
+                        <span class="badge bg-gradient text-white">Methodology</span>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="mb-3">Quick Links</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><a href="#home" class="text-decoration-none text-muted">Home</a></li>
+                                <li class="mb-2"><a href="#waterfall" class="text-decoration-none text-muted">Waterfall</a></li>
+                                <li class="mb-2"><a href="#agile" class="text-decoration-none text-muted">Agile</a></li>
+                                <li><a href="#comparison" class="text-decoration-none text-muted">Comparison</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="mb-3">Resources</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Documentation</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Case Studies</a></li>
+                                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Templates</a></li>
+                                <li><a href="#" class="text-decoration-none text-muted">Glossary</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4 border-color">
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0 text-muted">© 2024 SDLC Mastery. Educational resource for software development professionals.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-muted">Designed for clarity, built for learning.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay" onclick="closePopup(event)">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <button class="close-popup" onclick="closePopup()">&times;</button>
+            <div id="popupContent"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const popupData = {
+            'why-learn-sdlc': {
+                title: "Why Learn SDLC Methodologies?",
+                content: `
+                    <h4 class="gradient-text mb-4">The Importance of SDLC</h4>
+                    <p>Understanding Software Development Life Cycle methodologies is crucial for several reasons:</p>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-shield-check text-waterfall me-2"></i>Risk Reduction</h6>
+                                <p class="small mb-0">SDLC helps identify and mitigate risks early, preventing costly failures and rework.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-cash-coin text-agile me-2"></i>Cost Efficiency</h6>
+                                <p class="small mb-0">Proper planning and estimation reduce waste and optimize resource utilization.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert border-gradient">
+                        <i class="bi bi-lightbulb gradient-text me-2"></i>
+                        <strong>Key Insight:</strong> Companies using proper SDLC methodologies experience 85% higher project success rates and 60% lower costs compared to those without structured processes.
+                    </div>
+                `
+            },
+            
+            'waterfall-detailed': {
+                title: "Waterfall Methodology: Complete Guide",
+                content: `
+                    <h4 class="text-waterfall mb-4">Waterfall Methodology Deep Dive</h4>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-list-check me-2"></i>Key Characteristics</h5>
+                            <ul class="small">
+                                <li>Sequential, linear process flow</li>
+                                <li>Comprehensive documentation</li>
+                                <li>Fixed requirements early in process</li>
+                                <li>Testing phase after implementation</li>
+                                <li>Predictable timeline and budget</li>
+                                <li>Formal change control process</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-building me-2"></i>Best For</h5>
+                            <ul class="small">
+                                <li>Projects with stable requirements</li>
+                                <li>Regulated industries (banking, healthcare)</li>
+                                <li>When documentation is mandatory</li>
+                                <li>Fixed budget and timeline projects</li>
+                                <li>Well-understood technology stacks</li>
+                                <li>Small to medium sized projects</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="bi bi-graph-up me-2"></i>Success Metrics</h5>
+                        <div class="row g-3">
+                            <div class="col-4 text-center">
+                                <div class="stat-number">14%</div>
+                                <div class="small text-muted">Success Rate</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number">29%</div>
+                                <div class="small text-muted">Usage Today</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number">1970</div>
+                                <div class="small text-muted">Introduced</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            
+            'agile-detailed': {
+                title: "Agile Methodology: Complete Guide",
+                content: `
+                    <h4 class="text-agile mb-4">Agile Methodology Deep Dive</h4>
+                    
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-arrow-repeat me-2"></i>Key Characteristics</h5>
+                            <ul class="small">
+                                <li>Iterative, incremental development</li>
+                                <li>Continuous customer collaboration</li>
+                                <li>Embraces changing requirements</li>
+                                <li>Working software delivered frequently</li>
+                                <li>Self-organizing teams</li>
+                                <li>Continuous improvement</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="bi bi-lightning me-2"></i>Best For</h5>
+                            <ul class="small">
+                                <li>Projects with evolving requirements</li>
+                                <li>Startups and innovative projects</li>
+                                <li>When fast delivery is critical</li>
+                                <li>Customer-centric development</li>
+                                <li>Complex, uncertain projects</li>
+                                <li>Teams that can self-organize</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="bi bi-graph-up me-2"></i>Success Metrics</h5>
+                        <div class="row g-3">
+                            <div class="col-4 text-center">
+                                <div class="stat-number">37%</div>
+                                <div class="small text-muted">Success Rate</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number">71%</div>
+                                <div class="small text-muted">Usage Today</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number">2001</div>
+                                <div class="small text-muted">Manifesto Published</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            
+            'choose-waterfall-guide': {
+                title: "When to Choose Waterfall",
+                content: `
+                    <h4 class="text-waterfall mb-4">Waterfall Selection Criteria</h4>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-clipboard-check me-2"></i>Requirements Clarity</h6>
+                                <p class="small mb-0">All requirements must be known, documented, and unlikely to change.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-shield-lock me-2"></i>Regulatory Needs</h6>
+                                <p class="small mb-0">Industries requiring audit trails and comprehensive documentation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-calendar me-2"></i>Fixed Timeline</h6>
+                                <p class="small mb-0">When project deadlines are non-negotiable and fixed.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-cash me-2"></i>Fixed Budget</h6>
+                                <p class="small mb-0">When budget constraints cannot be exceeded.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert border-gradient">
+                        <i class="bi bi-info-circle text-waterfall me-2"></i>
+                        <strong>Decision Checklist:</strong> Choose Waterfall if you have stable requirements, need extensive documentation, have fixed constraints, and work in regulated industries.
+                    </div>
+                `
+            },
+            
+            'choose-agile-guide': {
+                title: "When to Choose Agile",
+                content: `
+                    <h4 class="text-agile mb-4">Agile Selection Criteria</h4>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-arrow-repeat me-2"></i>Changing Requirements</h6>
+                                <p class="small mb-0">Requirements are expected to evolve based on feedback.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-people me-2"></i>Customer Collaboration</h6>
+                                <p class="small mb-0">Continuous customer involvement is possible and desired.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-speedometer2 me-2"></i>Time-to-Market</h6>
+                                <p class="small mb-0">Quick delivery provides competitive advantage.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-lightbulb me-2"></i>Innovation Focus</h6>
+                                <p class="small mb-0">Exploring new technologies or markets.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert border-gradient">
+                        <i class="bi bi-info-circle text-agile me-2"></i>
+                        <strong>Decision Checklist:</strong> Choose Agile if you have evolving requirements, need customer collaboration, want early ROI, and can work with iterative development.
+                    </div>
+                `
+            },
+            
+            'hybrid-benefits': {
+                title: "Hybrid Approach Benefits",
+                content: `
+                    <h4 class="gradient-text mb-4">Water-Agile-Fall: Best of Both Worlds</h4>
+                    
+                    <p>The hybrid approach combines Waterfall's planning strengths with Agile's flexibility:</p>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-clipboard-data me-2"></i>Structured Planning</h6>
+                                <p class="small mb-0">Initial requirements gathering and architecture design using Waterfall principles.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-arrow-repeat me-2"></i>Flexible Execution</h6>
+                                <p class="small mb-0">Iterative development with continuous feedback using Agile principles.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-shield-check me-2"></i>Risk Management</h6>
+                                <p class="small mb-0">Combines upfront risk assessment with continuous risk monitoring.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="info-box">
+                                <h6><i class="bi bi-graph-up me-2"></i>Adaptability</h6>
+                                <p class="small mb-0">Allows for changes while maintaining overall project structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert border-gradient">
+                        <i class="bi bi-lightbulb gradient-text me-2"></i>
+                        <strong>Common Implementation:</strong> Many organizations use Waterfall for requirements and design phases, then switch to Agile for development and testing.
+                    </div>
+                `
+            }
+        };
+
+        function showPopup(popupId) {
+            const overlay = document.getElementById('popupOverlay');
+            const contentDiv = document.getElementById('popupContent');
+            
+            if (popupData[popupId]) {
+                const data = popupData[popupId];
+                contentDiv.innerHTML = `
+                    <h3 class="mb-4">${data.title}</h3>
+                    ${data.content}
+                `;
+            } else {
+                contentDiv.innerHTML = `
+                    <h3 class="mb-4">Detailed Information</h3>
+                    <p>This section provides comprehensive information about the selected topic.</p>
+                    <p>Additional details and examples would be included in a full implementation.</p>
+                `;
+            }
+            
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePopup(event) {
+            if (event && event.target !== document.getElementById('popupOverlay') && !event.target.classList.contains('close-popup')) {
+                return;
+            }
+            document.getElementById('popupOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const position = element.getBoundingClientRect();
+                if (position.top < window.innerHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                window.scrollTo({
+                    top: section.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+                handleScrollAnimations();
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    if (targetId) {
+                        scrollToSection(targetId);
+                        
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        const navbarCollapse = document.querySelector('.navbar-collapse');
+                        if (navbarCollapse.classList.contains('show')) {
+                            navbarCollapse.classList.remove('show');
+                        }
+                    }
+                });
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closePopup();
+                }
+            });
+            
+            setTimeout(handleScrollAnimations, 100);
+            
+            if ('ontouchstart' in window) {
+                document.body.classList.add('touch-device');
+            }
+        });
+    </script>
+</body>
+</html>
